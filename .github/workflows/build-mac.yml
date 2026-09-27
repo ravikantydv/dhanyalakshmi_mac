@@ -21,6 +21,71 @@ jobs:
       - name: Build .app with PyInstaller
         run: pyinstaller "Dhanyalakshmi Insurancewala-mac.spec"
 
+      - name: Smoke-test the built .app
+        run: |
+          set -e
+          DATA_DIR="$HOME/Library/Application Support/Dhanyalakshmi Insurancewala/Dhanyalakshmi Insurancewala"
+          echo "DATA_DIR=$DATA_DIR" >> "$GITHUB_ENV"
+
+          APP_BIN="dist/Dhanyalakshmi Insurancewala.app/Contents/MacOS/Dhanyalakshmi Insurancewala"
+          test -f "$APP_BIN"
+          chmod +x "$APP_BIN"
+
+          "$APP_BIN" &
+          APP_PID=$!
+
+          # wait up to 30s for the server to come up
+          ok=0
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://127.0.0.1:8010/login; then
+              ok=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$ok" != "1" ]; then
+            echo "App never came up on port 8010"
+            kill "$APP_PID" 2>/dev/null || true
+            exit 1
+          fi
+
+          login_code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8010/login)
+          css_code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8010/static/style.css)
+          root_code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8010/)
+
+          echo "GET /login -> $login_code"
+          echo "GET /static/style.css -> $css_code"
+          echo "GET / (no session) -> $root_code"
+
+          echo "Expected data dir: $DATA_DIR"
+          ls -la "$DATA_DIR" || true
+
+          kill "$APP_PID" 2>/dev/null || true
+          sleep 1
+
+          fail=0
+          [ "$login_code" = "200" ] || { echo "FAIL: /login did not return 200"; fail=1; }
+          [ "$css_code" = "200" ] || { echo "FAIL: static asset did not return 200"; fail=1; }
+          [ "$root_code" = "302" ] || { echo "FAIL: unauthenticated / did not redirect (302)"; fail=1; }
+          [ -f "$DATA_DIR/insurance.db" ] || { echo "FAIL: insurance.db was not created under platformdirs path"; fail=1; }
+
+          if [ "$fail" != "0" ]; then
+            echo "----- desktop_app.log -----"
+            cat "$DATA_DIR/desktop_app.log" 2>/dev/null || echo "(no log file)"
+            exit 1
+          fi
+
+          echo "Smoke test passed."
+
+      - name: Upload app log (always, for debugging)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop_app-log
+          path: "${{ env.DATA_DIR }}/desktop_app.log"
+          if-no-files-found: ignore
+
       - name: Upload built app
         uses: actions/upload-artifact@v4
         with:
