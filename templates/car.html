@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Car Insurance - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Car Insurance{% endblock %}
+
+{% block content %}
+
+<div class="cards">
+  <div class="card"><h3>Total Premium (With GST)</h3><p>₹ {{ total_premium }}</p></div>
+  <div class="card"><h3>Total Commission</h3><p>₹ {{ total_commission }}</p></div>
+  <div class="card"><h3>Net Profit</h3><p class="profit">₹ {{ total_profit }}</p></div>
+  <div class="card"><h3>Total Policies</h3><p>{{ total_policies }}</p></div>
+</div>
+
+<div class="table-section">
+  <h2>Car Policies</h2>
+  <div class="actions">
+  <a class="btn secondary" href="/export/policies/Car/csv">Export CSV</a>
+  <a class="btn" href="/export/policies/Car/excel">Export Excel</a>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Policy Number</th>
+        <th>Customer name</th>
+        <th>Car type/Model</th>
+        <th>Variant</th>
+        <th>Car number</th>
+        <th>Policy Date</th>
+        <th>Expiry Date</th>
+        <th>Premium with GST</th>
+        <th>Premium without GST</th>
+        <th>Employee Name</th>
+        <th>Commission</th>
+        <th>Payout</th>
+        <th>Net Profit</th>
+        <th>Claim</th>
+        <th>Company</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for p in policies %}
+      <tr>
+        <td>{{ p.policy_number }}</td>
+        <td>{{ p.customer_name }}</td>
+        <td>{{ p.vehicle_model or '-' }}</td>
+        <td>{{ p.vehicle_variant or '-' }}</td>
+        <td>{{ p.vehicle_number or '-' }}</td>
+        <td>{{ p.policy_date or '-' }}</td>
+        <td>{{ p.expiry_date or '-' }}</td>
+        <td>₹{{ p.premium_with_gst or 0 }}</td>
+        <td>₹{{ p.premium_without_gst or 0 }}</td>
+        <td>{{ p.employee.name if p.employee else '-' }}</td>
+        <td>₹{{ p.commission or 0 }}</td>
+        <td>₹{{ p.payout or 0 }}</td>
+        <td class="{% if (p.net_profit or 0) >= 0 %}profit{% else %}loss{% endif %}">
+          ₹{{ p.net_profit or 0 }}
+        </td>
+        <td>
+          <form method="post" action="/policies/{{ p.id }}/claim-toggle" style="display:inline;">
+            <button type="submit"
+                    class="badge {% if (p.claim_status or 'No') in ['Yes','Approved'] %}badge-green{% else %}badge-red{% endif %}"
+                    style="border:none;background:transparent;cursor:pointer;">
+              {{ p.claim_status or "No" }}
+            </button>
+          </form>
+        </td>
+        <td>{{ p.company or '-' }}</td>
+         <td>
+        <form method="post" action="/delete/policy/{{ p.id }}"
+              onsubmit="return confirm('Are you sure you want to delete this policy record?');">
+          <button type="submit" class="btn-danger">Delete</button>
+        </form>
+      </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

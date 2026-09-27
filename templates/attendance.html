@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Attendance - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Attendance Insights ({{ latest_date }}){% endblock %}
+
+{% block content %}
+
+<div class="cards">
+  <div class="card"><h3>Total Records</h3><p>{{ kpi_total }}</p></div>
+  <div class="card"><h3>Present</h3><p>{{ kpi_present }}</p></div>
+  <div class="card"><h3>On Time</h3><p>{{ kpi_on_time }}</p></div>
+  <div class="card"><h3>Late</h3><p>{{ kpi_late }}</p></div>
+  <div class="card"><h3>Early</h3><p>{{ kpi_early }}</p></div>
+  <div class="card"><h3>Absent</h3><p>{{ kpi_absent }}</p></div>
+  <div class="card"><h3>Left Early</h3><p>{{ kpi_left_early }}</p></div>
+  <div class="card"><h3>Overtime</h3><p>{{ kpi_overtime }}</p></div>
+  <div class="card"><h3>Avg Late (mins)</h3><p>{{ avg_late }}</p></div>
+  <div class="card"><h3>Avg Worked (mins)</h3><p>{{ avg_worked }}</p></div>
+</div>
+
+<div class="table-section">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+    <h2>Late Employees (Top)</h2>
+    <div class="actions">
+      <a class="btn secondary" href="/export/attendance/csv">Export CSV</a>
+      <a class="btn" href="/export/attendance/excel">Export Excel</a>
+    </div>
+  </div>
+
+  {% if late_list %}
+  <table>
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Sign In</th>
+        <th>Minutes Late</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in late_list %}
+      <tr>
+        <td>{{ a.employee.name if a.employee else '-' }}</td>
+        <td>{{ a.sign_in or '-' }}</td>
+        <td>{{ a.minutes_late or 0 }}</td>
+        <td><span class="badge badge-red">Late</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="chart-placeholder">No late entries for selected date.</div>
+  {% endif %}
+</div>
+
+<div class="table-section">
+  <h2>Full Attendance</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Sign In</th>
+        <th>Sign Out</th>
+        <th>Status</th>
+        <th>Minutes Late</th>
+        <th>Worked Minutes</th>
+        <th>Left Early</th>
+        <th>Overtime</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in attendance %}
+      <tr>
+        <td>{{ a.employee.name if a.employee else '-' }}</td>
+        <td>{{ a.date }}</td>
+        <td>{{ a.sign_in or '-' }}</td>
+        <td>{{ a.sign_out or '-' }}</td>
+        <td>
+          {% if a.status == "On Time" %}
+            <span class="badge badge-green">On Time</span>
+          {% elif a.status == "Early" %}
+            <span class="badge badge-blue">Early</span>
+          {% elif a.status == "Late" %}
+            <span class="badge badge-red">Late</span>
+          {% else %}
+            <span class="badge badge-gray">Absent</span>
+          {% endif %}
+        </td>
+        <td>{{ a.minutes_late or 0 }}</td>
+        <td>{{ a.worked_minutes or 0 }}</td>
+        <td>
+          {% if (a.left_early_minutes or 0) > 0 %}
+            <span class="badge badge-red">{{ a.left_early_minutes }} mins</span>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          {% if (a.overtime_minutes or 0) > 0 %}
+            <span class="badge badge-green">{{ a.overtime_minutes }} mins</span>
+          {% else %}
+            -
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

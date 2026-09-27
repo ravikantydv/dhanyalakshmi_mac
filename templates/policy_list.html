@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ type_name }} - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}{{ type_name }}{% endblock %}
+
+{% block content %}
+<div class="cards">
+  <div class="card"><h3>Total Premium</h3><p>₹ {{ total_premium }}</p></div>
+  <div class="card"><h3>Total Commission</h3><p>₹ {{ total_commission }}</p></div>
+  <div class="card"><h3>Net Profit</h3><p class="profit">₹ {{ total_profit }}</p></div>
+  <div class="card"><h3>Total Policies</h3><p>{{ total_policies }}</p></div>
+</div>
+
+<div class="table-section">
+  <div class="table-head">
+    <h2>Policies (Latest 50)</h2>
+    <div class="hint">Later we’ll add filters: date range, employee, company, renewal status</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Company</th>
+        <th>Premium</th>
+        <th>Commission</th>
+        <th>Payout</th>
+        <th>Net</th>
+        <th>Claim</th>
+        <th>Employee</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for policy in policies %}
+      <tr>
+        <td>{{ policy.customer_name }}</td>
+        <td>{{ policy.company }}</td>
+        <td>₹{{ policy.premium }}</td>
+        <td>₹{{ policy.commission }}</td>
+        <td>₹{{ policy.payout }}</td>
+        <td class="{% if policy.net_profit >= 0 %}profit{% else %}loss{% endif %}">
+          ₹{{ policy.net_profit }}
+        </td>
+        <td>
+          <span class="badge {% if policy.claim_status in ['Yes','Approved'] %}badge-green{% else %}badge-red{% endif %}">
+            {{ policy.claim_status }}
+          </span>
+        </td>
+        <td>{{ policy.employee.name if policy.employee else '-' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

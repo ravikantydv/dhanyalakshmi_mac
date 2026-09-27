@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Reports - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Reports{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h3 style="margin-bottom:8px;">Reports Center</h3>
+  <p style="color:#6b7280;">Next we will add PDF/Excel export: P&L, employee performance, insurer-wise settlements, renewals due.</p>
+</div>
+
+<div class="table-section">
+  <h2>Available Reports (Demo)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Report</th>
+        <th>Frequency</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Monthly Profit & Loss</td><td>Monthly</td><td>Premium, commission, payout, net profit</td><td><span class="badge badge-blue">Planned</span></td></tr>
+      <tr><td>Employee Performance</td><td>Monthly</td><td>Policies, conversion, profit contribution</td><td><span class="badge badge-blue">Planned</span></td></tr>
+      <tr><td>Renewals Due</td><td>Weekly</td><td>Expiring policies + WhatsApp reminder list</td><td><span class="badge badge-blue">Planned</span></td></tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

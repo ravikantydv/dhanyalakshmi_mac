@@ -1,0 +1,7 @@
+build/
+dist/
+insurance/
+__pycache__/
+*.pyc
+*.db
+import_inbox/

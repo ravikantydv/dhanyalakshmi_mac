@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Business Analytics Overview{% endblock %}
+
+{% block content %}
+<div class="cards">
+  <div class="card">
+    <h3>Total Premium (Month)</h3>
+    <p>₹ {{ total_premium }}</p>
+  </div>
+  <div class="card">
+    <h3>Total Commission</h3>
+    <p>₹ {{ total_commission }}</p>
+  </div>
+  <div class="card">
+    <h3>Net Profit</h3>
+    <p class="profit">₹ {{ total_profit }}</p>
+  </div>
+  <div class="card">
+    <h3>Active Policies</h3>
+    <p>{{ active_policies }}</p>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="chart-box">
+    <h3>Monthly Premium vs Profit</h3>
+    {{ monthly_chart | safe }}
+  </div>
+  <div class="chart-box">
+    <h3>Insurance Type Distribution</h3>
+    {{ pie_chart | safe }}
+  </div>
+</div>
+
+<div class="table-section">
+  <h2>Recent Policies</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Customer</th>
+        <th>Premium</th>
+        <th>Commission</th>
+        <th>Payout</th>
+        <th>Net</th>
+        <th>Claim</th>
+        <th>Employee</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for policy in policies %}
+      <tr>
+        <td>{{ policy.insurance_type }}</td>
+        <td>{{ policy.customer_name }}</td>
+        <td>₹{{ policy.premium_with_gst or policy.premium or 0 }}</td>
+        <td>₹{{ policy.commission }}</td>
+        <td>₹{{ policy.payout }}</td>
+        <td class="profit">₹{{ policy.net_profit }}</td>
+        <td>
+          <span class="badge {% if policy.claim_status in ['Yes','Approved'] %}badge-green{% else %}badge-red{% endif %}">
+            {{ policy.claim_status }}
+          </span>
+        </td>
+        <td>{{ policy.employee.name if policy.employee else '-' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="attendance-summary">
+  <div class="att-box"><h3>Total Employees</h3><p>{{ total_employees }}</p></div>
+  <div class="att-box"><h3>Present Today</h3><p>{{ present_today }}</p></div>
+  <div class="att-box"><h3>On Leave</h3><p>{{ leave_today }}</p></div>
+  <div class="att-box"><h3>Late Check-ins</h3><p>{{ late_today }}</p></div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Commissions - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Commissions{% endblock %}
+
+{% block content %}
+<div class="cards">
+  <div class="card"><h3>Total Commission</h3><p>₹ {{ total_commission }}</p></div>
+  <div class="card"><h3>Total Payout</h3><p>₹ {{ total_payout }}</p></div>
+  <div class="card"><h3>Total Profit</h3><p class="profit">₹ {{ total_profit }}</p></div>
+  <div class="card"><h3>Note</h3><p style="font-size:14px;font-weight:600;color:#6b7280;">Employee-wise breakup</p></div>
+</div>
+
+<div class="table-section">
+  <h2>Employee Commission Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Policies</th>
+        <th>Commission</th>
+        <th>Payout</th>
+        <th>Profit</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.employee }}</td>
+        <td>{{ r.policies or 0 }}</td>
+        <td>₹ {{ r.commission or 0 }}</td>
+        <td>₹ {{ r.payout or 0 }}</td>
+        <td class="{% if (r.profit or 0) >= 0 %}profit{% else %}loss{% endif %}">
+          ₹ {{ r.profit or 0 }}
+        </td>
+      
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Dhanyalakshmi Insurancewala{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Dhanyalakshmi Insurancewala</h2>
+    <ul>
+      <li class="{% if active=='dashboard' %}active{% endif %}"><a href="/">Dashboard</a></li>
+      <li class="{% if active=='car' %}active{% endif %}"><a href="/car">Car Insurance</a></li>
+      <li class="{% if active=='health' %}active{% endif %}"><a href="/health">Health Insurance</a></li>
+      <li class="{% if active=='term' %}active{% endif %}"><a href="/term">Term Insurance</a></li>
+      <li class="{% if active=='general' %}active{% endif %}"><a href="/general">General Insurance</a></li>
+      <li class="{% if active=='employees' %}active{% endif %}"><a href="/employees">Employees</a></li>
+      <li class="{% if active=='attendance' %}active{% endif %}"><a href="/attendance-page">Attendance</a></li>
+      <li class="{% if active=='commissions' %}active{% endif %}"><a href="/commissions">Commissions</a></li>
+      <li class="{% if active=='expenses' %}active{% endif %}"><a href="/expenses">Expenses</a></li>
+      <li class="{% if active=='reports' %}active{% endif %}"><a href="/reports">Reports</a></li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <h1>{% block page_title %}{% endblock %}</h1>
+
+      <div class="user">
+        <form method="post" action="/refresh-import" style="display:inline;">
+          <button type="submit" class="btn secondary" style="margin-right:10px;">Import Latest Data</button>
+        </form>
+
+        <form method="post" action="/import-upload" enctype="multipart/form-data" style="display:inline; margin-right:10px;">
+          <select name="data_type" required>
+            <option value="" disabled selected>Data type…</option>
+            <option value="employees">Employees</option>
+            <option value="attendance">Attendance</option>
+            <option value="car">Car Insurance</option>
+            <option value="health">Health Insurance</option>
+            <option value="term">Term Insurance</option>
+            <option value="general">General Insurance</option>
+          </select>
+          <input type="file" name="file" accept=".csv,.xlsx" required>
+          <button type="submit" class="btn secondary">Upload &amp; Import</button>
+        </form>
+
+        {{ user_name or "User" }}
+        &nbsp;|&nbsp;
+        <a href="/logout" class="logout-link">Logout</a>
+      </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+  </div>
+
+</body>
+</html>

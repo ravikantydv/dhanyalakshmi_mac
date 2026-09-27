@@ -1,0 +1,297 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: #f4f6f9;
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 240px;
+    background: #1f2937;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background: #374151;
+}
+
+/* Main */
+
+.main {
+    margin-left: 240px;
+    width: 100%;
+    padding: 20px 30px;
+}
+
+/* Topbar */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Cards */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Charts */
+
+.charts {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.chart-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    min-height: 300px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* Table */
+
+.table-section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+/* Badges */
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.badge-green {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Profit / Loss */
+
+.profit {
+    color: green;
+}
+
+.loss {
+    color: red;
+}
+
+/* Attendance */
+
+.attendance-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.att-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+.att-box p {
+    font-size: 22px;
+    font-weight: bold;
+}
+.table-head{
+  display:flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.hint{ color: #6b7280; font-size: 12px; }
+
+.badge{
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  display:inline-block;
+}
+.badge-green{ background:#d1fae5; color:#065f46; }
+.badge-red{ background:#fee2e2; color:#991b1b; }
+.badge-blue{ background:#dbeafe; color:#1e40af; }
+.badge-amber{ background:#fef3c7; color:#92400e; }
+
+.profit{ color: green; font-weight: 800; }
+.loss{ color: #dc2626; font-weight: 800; }
+
+.chart-placeholder{
+  margin-top: 90px;
+  text-align:center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+
+.right{ text-align:right; }
+.table-section {
+  overflow-x: auto;
+}
+
+table {
+  min-width: 1200px;   /* ensures wide insurance columns fit */
+}
+
+table td, table th {
+  white-space: nowrap;
+}
+.actions {
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-bottom: 10px;
+}
+.btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #111827;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.btn:hover { background: #374151; }
+.btn.secondary {
+  background: white;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+}
+.btn.secondary:hover { background: #f9fafb; }
+.logout-link{
+  color: #111827;
+  text-decoration: none;
+  font-weight: 700;
+}
+.logout-link:hover{
+  text-decoration: underline;
+}
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-red{background:#fee2e2;color:#991b1b;}
+.badge-blue{background:#dbeafe;color:#1e40af;}
+.badge-gray{background:#f3f4f6;color:#374151;}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn-danger{
+  background:#dc2626;
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:600;
+}
+.btn-danger:hover{
+  background:#b91c1c;
+}

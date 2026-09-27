@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Expenses - Dhanyalakshmi Insurancewala{% endblock %}
+{% block page_title %}Expenses{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h3 style="margin-bottom:8px;">Expenses Module</h3>
+  <p style="color:#6b7280;">Next we will create an Expenses table (salary, rent, marketing, tools) and show month-wise charts here.</p>
+</div>
+
+<div class="table-section">
+  <h2>Dummy Expense Entries</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th class="right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2026-02-25</td><td>Rent</td><td>Office Rent</td><td class="right">₹ 12,000</td></tr>
+      <tr><td>2026-02-25</td><td>Marketing</td><td>Meta Ads</td><td class="right">₹ 3,500</td></tr>
+      <tr><td>2026-02-25</td><td>Salary</td><td>Staff Salary</td><td class="right">₹ 45,000</td></tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}
